@@ -1,0 +1,25 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: Grub2
+scopeName: source.grub2
+fileTypes: [grub.cfg, grub2.cfg]
+uuid: 0ca235bb-d8ea-47e4-8688-8121d83126b9
+
+patterns:
+- captures:
+    '1': {name: keyword.other.grub2}
+    '2': {name: keyword.other.grub2}
+    '3': {name: string.grub2}
+    '4': {name: variable.parameter.grub2}
+  match: ^\s*(set)\s+([^ ]+)\s*(=)(.*)$
+  name: keyword.control.grub2
+- name: keyword.control.grub2
+  match: (menuentry)\s*(".*") \{
+  captures:
+    '1': {name: keyword.other.grub2}
+    '2': {name: variable.parameter.grub2}
+- {match: ^\s*;.*, name: comment.line.grub2}
+- {match: ^\s*#.*, name: comment.line.grub2}
+- {match: ^\s*#+, name: comment.block.grub2}
+- {match: '\[.*\]', name: string.grub2}
+scopeName: source.grub2
