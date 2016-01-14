@@ -6,18 +6,51 @@ fileTypes: [grub.cfg, grub2.cfg]
 uuid: 0ca235bb-d8ea-47e4-8688-8121d83126b9
 
 patterns:
-- captures:
-    '1': {name: keyword.other.grub2}
-    '2': {name: keyword.other.grub2}
-    '3': {name: string.grub2}
-    '4': {name: variable.parameter.grub2}
-  match: ^\s*(set)\s+([^ ]+)\s*(=)(.*)$
-  name: keyword.control.grub2
-- name: keyword.control.grub2
-  match: (menuentry)\s*(".*") \{
+- match: (?:(--class)\s([^\s]+)\s)+
   captures:
     '1': {name: keyword.other.grub2}
     '2': {name: variable.parameter.grub2}
+- match: ^\s*(set)\s+([^ ]+)\s*(=)(.*)$
+  captures:
+    '1': {name: keyword.other.grub2}
+    '2': {name: keyword.other.grub2}
+    '3': {name: string}
+    '4': {name: variable.parameter.grub2}
+- match: (menuentry|submenu)\s*(["'].*["'])\s(?:\s*(--unrestricted))?(?:\s*(--(?:class|hotkey))\s*([a-z]+))* \{
+  captures:
+    '1': {name: keyword.other.grub2}
+    '2': {name: variable.parameter.grub2}
+    '3': {name: keyword.other.grub2}
+    '4': {name: keyword.other.grub2}
+    '5': {name: variable.parameter.grub2}
+- match: ^\s*(linux(?:16)?|initrd)\s+(.*)
+  captures:
+    '1': {name: keyword.other.grub2}
+    '2': {name: variable.parameter.grub2}
+- match: ^\s*(insmod|terminal_input|keymap)\s+([^\s]+)
+  captures:
+    '1': {name: keyword.other.grub2}
+    '2': {name: variable.parameter.grub2}
+- match: ^\s*(loopback)\s*(.+)$
+  captures:
+    '1': {name: keyword.other.grub2}
+    '2': {name: variable.parameter.grub2}
+- match: ^\s*(echo)\s*(.+)$
+  captures:
+    '1': {name: keyword.other.grub2}
+    '2': {name: variable.parameter.grub2}
+- match: ^\s*(chainloader \+1)$
+  captures:
+    '1': {name: constant.language.grub2}
+- match: ^\s*(function)\s*(.+) {$
+  captures:
+    '1': {name: constant.language.grub2}
+    '2': {name: variable.parameter.grub2}
+- match: ^\s*(password(?:_pbkdf2)?)\s+([^ ]+)\s+(.*)
+  captures:
+    '1': {name: constant.language.grub2}
+    '2': {name: keyword.other.grub2}
+    '3': {name: variable.parameter.grub2}
 - {match: ^\s*;.*, name: comment.line.grub2}
 - {match: ^\s*#.*, name: comment.line.grub2}
 - {match: ^\s*#+, name: comment.block.grub2}

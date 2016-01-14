@@ -22,6 +22,23 @@
 				<key>2</key>
 				<dict>
 					<key>name</key>
+					<string>variable.parameter.grub2</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(?:(--class)\s([^\s]+)\s)+</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
 					<string>keyword.other.grub2</string>
 				</dict>
 				<key>3</key>
@@ -37,8 +54,38 @@
 			</dict>
 			<key>match</key>
 			<string>^\s*(set)\s+([^ ]+)\s*(=)(.*)$</string>
-			<key>name</key>
-			<string>keyword.control.grub2</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.grub2</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.grub2</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(menuentry|submenu)\s*(["'].*["'])\s(?:\s*(--unrestricted))?(?:\s*(--(?:class|hotkey))\s*([a-z]+))* \{</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -55,9 +102,109 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(menuentry)\s*(".*") \{</string>
-			<key>name</key>
-			<string>keyword.control.grub2</string>
+			<string>^\s*(linux(?:16)?|initrd)\s+(.*)</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.grub2</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>^\s*(insmod|terminal_input|keymap)\s+([^\s]+)</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.grub2</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>^\s*(loopback)\s*(.+)$</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.grub2</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>^\s*(echo)\s*(.+)$</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>constant.language.grub2</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>^\s*(chainloader \+1)$</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>constant.language.grub2</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.grub2</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>^\s*(function)\s*(.+) {$</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>constant.language.grub2</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.grub2</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>^\s*(password(?:_pbkdf2)?)\s+([^ ]+)\s+(.*)</string>
 		</dict>
 		<dict>
 			<key>match</key>
