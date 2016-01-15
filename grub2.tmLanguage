@@ -6,18 +6,22 @@
 	<array>
 		<string>grub.cfg</string>
 		<string>grub2.cfg</string>
+		<string>user.cfg</string>
+		<string>syntax_test_grub2.txt</string>
 	</array>
 	<key>name</key>
 	<string>Grub2</string>
 	<key>patterns</key>
 	<array>
 		<dict>
-			<key>captures</key>
+			<key>begin</key>
+			<string>(menuentry)\s</string>
+			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.grub2</string>
+					<string>constant.language.grub2</string>
 				</dict>
 				<key>2</key>
 				<dict>
@@ -25,8 +29,206 @@
 					<string>variable.parameter.grub2</string>
 				</dict>
 			</dict>
+			<key>comment</key>
+			<string>Ligne de début d'une entrée de menu</string>
+			<key>end</key>
+			<string>\{</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.grub2</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter.grub2</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(--(?:class|hotkey))\s*([^ ]+)</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(--(?:unrestricted))</string>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variables</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#dquotedstr</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#quotedstr</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(submenu)\s</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>constant.language.grub2</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.grub2</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>Ligne de début d'une entrée de menu</string>
+			<key>end</key>
+			<string>\{</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.grub2</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter.grub2</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>(--(?:class|hotkey))\s*([^ ]+)</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(--(?:unrestricted))</string>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variables</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#dquotedstr</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#quotedstr</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(search)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>constant.language.grub2</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>$</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\s*(--[a-zA-Z0-9_-]+)\s</string>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.grub2</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>variable.parameter.grub2</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>\s*(--[a-zA-Z0-9_-]+)\s*([^ ]+)</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>.</string>
+					<key>name</key>
+					<string>string.other.grub2</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variables</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#dquotedstr</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#quotedstr</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Conditions</string>
 			<key>match</key>
-			<string>(?:(--class)\s([^\s]+)\s)+</string>
+			<string>(if|then|else|elif|fi)</string>
+			<key>name</key>
+			<string>keyword.control.grub2</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>^\s*((?:set)?\s+[^ ]+)\s*=</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>Définition de variable</string>
+			<key>end</key>
+			<string>$</string>
+			<key>name</key>
+			<string>string.other.grub2</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#allvar</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>comment</key>
+			<string>Export de variable</string>
+			<key>match</key>
+			<string>export\s+[^ ]+\s</string>
+			<key>name</key>
+			<string>keyword.other.grub2</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -39,53 +241,11 @@
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.grub2</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>string</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>variable.parameter.grub2</string>
+					<string>string.grub2</string>
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>^\s*(set)\s+([^ ]+)\s*(=)(.*)$</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.other.grub2</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>variable.parameter.grub2</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.other.grub2</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.other.grub2</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>variable.parameter.grub2</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(menuentry|submenu)\s*(["'].*["'])\s(?:\s*(--unrestricted))?(?:\s*(--(?:class|hotkey))\s*([a-z]+))* \{</string>
+			<string>^\s*(linux(?:16)?|initrd(?:16)?)\s+(.*)</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -102,7 +262,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>^\s*(linux(?:16)?|initrd)\s+(.*)</string>
+			<string>^\s*(insmod|terminal(?:_output|_input)|keymap|save_env)\s+([^\s]+)</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -119,41 +279,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>^\s*(insmod|terminal_input|keymap)\s+([^\s]+)</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.other.grub2</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>variable.parameter.grub2</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>^\s*(loopback)\s*(.+)$</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.other.grub2</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>variable.parameter.grub2</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>^\s*(echo)\s*(.+)$</string>
+			<string>^\s*(echo|loopback)\s*(.+)$</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -178,23 +304,6 @@
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>variable.parameter.grub2</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>^\s*(function)\s*(.+) {$</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>constant.language.grub2</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
 					<string>keyword.other.grub2</string>
 				</dict>
 				<key>3</key>
@@ -205,6 +314,60 @@
 			</dict>
 			<key>match</key>
 			<string>^\s*(password(?:_pbkdf2)?)\s+([^ ]+)\s+(.*)</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>^\s*(source)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.grub2</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>$</string>
+			<key>name</key>
+			<string>string.other.grub2</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#variables</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>\[</string>
+			<key>contentName</key>
+			<string>string.other.grub2</string>
+			<key>end</key>
+			<string>\]</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#variables</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#variables</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#dquotedstr</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#quotedstr</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#function</string>
 		</dict>
 		<dict>
 			<key>match</key>
@@ -224,13 +387,142 @@
 			<key>name</key>
 			<string>comment.block.grub2</string>
 		</dict>
-		<dict>
-			<key>match</key>
-			<string>\[.*\]</string>
-			<key>name</key>
-			<string>string.grub2</string>
-		</dict>
 	</array>
+	<key>repository</key>
+	<dict>
+		<key>allstr</key>
+		<dict>
+			<key>include</key>
+			<string>#quotedstr</string>
+		</dict>
+		<key>dquotedstr</key>
+		<dict>
+			<key>begin</key>
+			<string>(["])</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>string.quoted.double.grub2</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>block de texte</string>
+			<key>end</key>
+			<string>(["])</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>string.quoted.double.grub2</string>
+				</dict>
+			</dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#variables</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>.</string>
+					<key>name</key>
+					<string>string.quoted.double.grub2</string>
+				</dict>
+			</array>
+		</dict>
+		<key>function</key>
+		<dict>
+			<key>begin</key>
+			<string>(function)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.grub2</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>fonction</string>
+			<key>end</key>
+			<string>\{</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>storage.type.grub2</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>([^ ]+)</string>
+				</dict>
+			</array>
+		</dict>
+		<key>quotedstr</key>
+		<dict>
+			<key>begin</key>
+			<string>(['])</string>
+			<key>comment</key>
+			<string>block de texte</string>
+			<key>end</key>
+			<string>(['])</string>
+			<key>name</key>
+			<string>string.quoted.single.grub2</string>
+		</dict>
+		<key>variables</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.other.grub2</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>variable</string>
+					<key>match</key>
+					<string>(\$[a-zA-Z][a-zA-Z0-9_-]+)</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(\$\{)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.other.grub2</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>variable complexe</string>
+					<key>contentName</key>
+					<string>variable.other.grub2</string>
+					<key>end</key>
+					<string>(\})</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>variable.other.grub2</string>
+						</dict>
+					</dict>
+				</dict>
+			</array>
+		</dict>
+	</dict>
 	<key>scopeName</key>
 	<string>source.grub2</string>
 	<key>uuid</key>

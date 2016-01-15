@@ -1,58 +1,175 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 ---
 name: Grub2
-scopeName: source.grub2
-fileTypes: [grub.cfg, grub2.cfg]
+scopeName: text.grub2
+fileTypes: [grub.cfg, grub2.cfg, user.cfg, syntax_test_grub2.txt]
 uuid: 0ca235bb-d8ea-47e4-8688-8121d83126b9
 
 patterns:
-- match: (?:(--class)\s([^\s]+)\s)+
+- comment: Ligne de début d'une entrée de menu
+  begin: (menuentry)\s
+  beginCaptures:
+    '1': {name: constant.language.grub2}
+    '2': {name: variable.parameter.grub2}
+  end: \{
+  patterns:
+  - match:  (--(?:class|hotkey))\s*([^ ]+)
+    captures:
+      '1': {name: keyword.other.grub2}
+      '2': {name: variable.parameter.grub2}
+  - match:  (--(?:unrestricted))
+    name: keyword.other.grub2
+  - include: '#variables'
+  - include: '#dquotedstr'
+  - include: '#quotedstr'
+
+- comment: Ligne de début d'une entrée de menu
+  begin: (submenu)\s
+  beginCaptures:
+    '1': {name: constant.language.grub2}
+    '2': {name: variable.parameter.grub2}
+  end: \{
+  patterns:
+  - match:  (--(?:class|hotkey))\s*([^ ]+)
+    captures:
+      '1': {name: keyword.other.grub2}
+      '2': {name: variable.parameter.grub2}
+  - match:  (--(?:unrestricted))
+    name: keyword.other.grub2
+  - include: '#variables'
+  - include: '#dquotedstr'
+  - include: '#quotedstr'
+
+- begin:  (search)
+  beginCaptures:
+    '1': {name: constant.language.grub2}
+  end: $
+  patterns:
+  - match:  \s*(--[a-zA-Z0-9_-]+)\s
+    name: keyword.other.grub2
+  - match:  \s*(--[a-zA-Z0-9_-]+)\s*([^ ]+)
+    captures:
+      '1': {name: keyword.other.grub2}
+      '2': {name: variable.parameter.grub2}
+  - match: .
+    name: string.other.grub2
+  - include: '#variables'
+  - include: '#dquotedstr'
+  - include: '#quotedstr'
+
+- comment: Conditions
+  name: keyword.control.grub2
+  match: (if|then|else|elif|fi)
+
+- comment: Définition de variable
+  name: string.other.grub2
+  begin: ^\s*((?:set)?\s+[^ ]+)\s*=
+  end: $
+  beginCaptures:
+    '1': {name: keyword.other.grub2}
+  patterns:
+    - include: '#allvar'
+
+- comment: Export de variable
+  name: keyword.other.grub2
+  match: export\s+[^ ]+\s
+
+- match: ^\s*(linux(?:16)?|initrd(?:16)?)\s+(.*)
+  captures:
+    '1': {name: keyword.other.grub2}
+    '2': {name: string.grub2}
+
+- match: ^\s*(insmod|terminal(?:_output|_input)|keymap|save_env)\s+([^\s]+)
   captures:
     '1': {name: keyword.other.grub2}
     '2': {name: variable.parameter.grub2}
-- match: ^\s*(set)\s+([^ ]+)\s*(=)(.*)$
-  captures:
-    '1': {name: keyword.other.grub2}
-    '2': {name: keyword.other.grub2}
-    '3': {name: string}
-    '4': {name: variable.parameter.grub2}
-- match: (menuentry|submenu)\s*(["'].*["'])\s(?:\s*(--unrestricted))?(?:\s*(--(?:class|hotkey))\s*([a-z]+))* \{
+
+- match: ^\s*(echo|loopback)\s*(.+)$
   captures:
     '1': {name: keyword.other.grub2}
     '2': {name: variable.parameter.grub2}
-    '3': {name: keyword.other.grub2}
-    '4': {name: keyword.other.grub2}
-    '5': {name: variable.parameter.grub2}
-- match: ^\s*(linux(?:16)?|initrd)\s+(.*)
-  captures:
-    '1': {name: keyword.other.grub2}
-    '2': {name: variable.parameter.grub2}
-- match: ^\s*(insmod|terminal_input|keymap)\s+([^\s]+)
-  captures:
-    '1': {name: keyword.other.grub2}
-    '2': {name: variable.parameter.grub2}
-- match: ^\s*(loopback)\s*(.+)$
-  captures:
-    '1': {name: keyword.other.grub2}
-    '2': {name: variable.parameter.grub2}
-- match: ^\s*(echo)\s*(.+)$
-  captures:
-    '1': {name: keyword.other.grub2}
-    '2': {name: variable.parameter.grub2}
+
 - match: ^\s*(chainloader \+1)$
   captures:
     '1': {name: constant.language.grub2}
-- match: ^\s*(function)\s*(.+) {$
-  captures:
-    '1': {name: constant.language.grub2}
-    '2': {name: variable.parameter.grub2}
+
 - match: ^\s*(password(?:_pbkdf2)?)\s+([^ ]+)\s+(.*)
   captures:
     '1': {name: constant.language.grub2}
     '2': {name: keyword.other.grub2}
     '3': {name: variable.parameter.grub2}
+
+- begin: ^\s*(source)
+  end: $
+  name: string.other.grub2
+  beginCaptures:
+    '1': {name: keyword.other.grub2}
+  patterns:
+  - include: '#variables'
+
+- begin: '\['
+  end: '\]'
+  contentName: string.other.grub2
+  patterns:
+  - include: '#variables'
+
+- include: '#variables'
+- include: '#dquotedstr'
+- include: '#quotedstr'
+- include: '#function'
+
 - {match: ^\s*;.*, name: comment.line.grub2}
 - {match: ^\s*#.*, name: comment.line.grub2}
 - {match: ^\s*#+, name: comment.block.grub2}
-- {match: '\[.*\]', name: string.grub2}
 scopeName: source.grub2
+
+repository:
+  allstr:
+    include: '#dquotedstr'
+    include: '#quotedstr'
+
+  function:
+    comment: fonction
+    begin: (function)
+    beginCaptures:
+      '1': { name: keyword.control.grub2}
+    end: \{
+    patterns:
+      - match: ([^ ]+)
+        captures:
+          '1': { name: storage.type.grub2}
+
+  variables:
+    patterns:
+    - comment: variable
+      match: (\$[a-zA-Z][a-zA-Z0-9_-]+)
+      captures:
+        '1': {name: variable.other.grub2}
+    - comment: variable complexe
+      contentName: variable.other.grub2
+      begin: (\$\{)
+      beginCaptures:
+        '1': {name: variable.other.grub2}
+      end: (\})
+      endCaptures:
+        '1': {name: variable.other.grub2}
+
+  quotedstr:
+    name: string.quoted.single.grub2
+    comment: block de texte
+    begin: (['])
+    end: (['])
+
+  dquotedstr:
+    comment: block de texte
+    begin: (["])
+    beginCaptures:
+      '1': {name: string.quoted.double.grub2}
+    end: (["])
+    endCaptures:
+      '1': {name: string.quoted.double.grub2}
+    patterns:
+    - include: '#variables'
+    - match: .
+      name: string.quoted.double.grub2
+
